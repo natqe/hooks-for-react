@@ -1,6 +1,6 @@
 {
   "name": "hooks-for-react",
-  "description": "",
+  "description": "A list of must use hooks necessary for daily work with react",
   "version": "0.0.2",
   "main": "index.js",
   "private": false,
