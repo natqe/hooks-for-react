@@ -14,7 +14,7 @@ Use a state with supper powers.
 This hook is like a combination of useState, useMemo and useRef hooks at once.
 
 **Definition**
-```ts
+```typescript
 <S>(factory: S | ((prev: S) => S), deps?: DependencyList): [S, Dispatch<SetStateAction<S>>, MutableRefObject<S>]
 ```
 **Usage**
