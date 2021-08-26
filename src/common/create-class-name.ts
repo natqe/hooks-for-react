@@ -1,0 +1,1 @@
+export const createClassName = (...classList: Array<string>) => classList.filter(Boolean).join(` `)

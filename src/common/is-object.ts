@@ -1,0 +1,1 @@
+export const isObject = anyVar => typeof anyVar == 'object' && anyVar instanceof Object && !(anyVar instanceof Array)

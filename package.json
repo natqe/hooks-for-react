@@ -1,0 +1,30 @@
+{
+  "name": "hooks-for-react",
+  "description": "",
+  "version": "0.0.1",
+  "main": "index.js",
+  "private": false,
+  "keywords": [],
+  "author": "Natan Farkash",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/natqe/hooks-for-react.git"
+  },
+  "devDependencies": {
+    "@types/jest": "27.0.1",
+    "@types/node": "16.7.1",
+    "@types/react": "17.0.19",
+    "@types/react-test-renderer": "17.0.1",
+    "jest": "27.0.6",
+    "react-test-renderer": "17.0.2",
+    "ts-jest": "27.0.5",
+    "typescript": "4.3.5"
+  },
+  "scripts": {
+    "build": "rm -rf build && tsc && cp README.md build/README.md && cp LICENSE build/LICENSE && cp -R src build/src && npm version patch && cp package.json build/package.json"
+  },
+  "peerDependencies": {
+    "react": "~17.0.2"
+  }
+}

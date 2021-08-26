@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "ES2021",
+    "module": "ESNext",
+    "sourceMap": true,
+    "outDir": "./build",
+    "sourceRoot": "../../node_modules/hooks-for-react/src",
+    "declaration": true,
+    "removeComments": false,
+    "esModuleInterop": false,
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
+  },
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "src/**/*.test.ts",
+    "src/coverage"
+  ]
+}
