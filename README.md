@@ -9,7 +9,6 @@ A set of must use hooks necessary for daily work with react
 - [Dom](#dom)
 ## **State**
 ### **useSupperState**
----
 Use a state with supper powers.
 
 This hook is like a combination of useState, useMemo and useRef hooks at once.
@@ -44,7 +43,7 @@ Also you can change the state without triggering a new rendering, by just changi
 stateRef.current = newValue
 ```
 ### **useBindState**
----
+
 Bind a state with an outside value.
 
 When the outside value changes, the state will be updated with the new value.
