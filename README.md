@@ -14,8 +14,8 @@ Use a state with supper powers.
 This hook is like a combination of useState, useMemo and useRef hooks at once.
 
 **Definition**
-```typescript
-<S>(factory: S | ((prev: S) => S), deps?: DependencyList): [S, Dispatch<SetStateAction<S>>, MutableRefObject<S>]
+```ts
+type useSupperState = <S>(factory: S | ((prev: S) => S), deps?: DependencyList): [S, Dispatch<SetStateAction<S>>, MutableRefObject<S>]
 ```
 **Usage**
 
@@ -43,9 +43,9 @@ Also you can change the state without triggering a new rendering by change the s
 stateRef.current = newValue
 ```
 ### **useBindState**
-Bind a state with outside parameter value.
+Bind a state with an outside value.
 
 **Definition**
 ```ts
-<S>(value: S): [S, Dispatch<SetStateAction<S>>, MutableRefObject<S>]
+type useBindState = <S>(value: S): [S, Dispatch<SetStateAction<S>>, MutableRefObject<S>]
 ```
