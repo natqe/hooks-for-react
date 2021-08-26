@@ -48,5 +48,5 @@ Bind a state with an outside value.
 When the outside value changes, the state will be updated with the new value.
 **Definition**
 ```ts
-type useBindState = <S>(value: S): [S, Dispatch<SetStateAction<S>>, MutableRefObject<S>]
+<S>(value: S): [S, Dispatch<SetStateAction<S>>, MutableRefObject<S>]
 ```
