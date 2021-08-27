@@ -277,7 +277,7 @@ It will work without any warning.
 ```js
 useEfct(async () => {/* Do some async operation */}, [...someDeps])
 ```
-It will only run once, and not like the `React` `useEffect` hook which in this case will run on any render of the component.
+In this case the effect will only run once, and not like the `React` `useEffect` hook which in this case will run on any render of the component.
 ```js
 useEfct(() => {/* Do something */})
 ```
