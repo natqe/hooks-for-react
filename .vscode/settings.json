@@ -19,6 +19,7 @@
         "usemount",
         "userender",
         "userun",
+        "usestablememo",
         "usestyle",
         "usesupperstate",
         "usetimeout",
