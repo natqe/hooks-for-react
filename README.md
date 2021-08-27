@@ -142,6 +142,7 @@ Returns the passed callback.
 <T extends (...args: any[]) => any>(callback: T, deps?: DependencyList): T
 ```
 **usage**
+
 In this example we do not pass a dependency list. So onClick will have the same reference to the function during the life of the component.
 ```js
 const onClick = useCB(() => console.log(exampleRef.current))
