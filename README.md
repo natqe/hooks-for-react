@@ -141,6 +141,7 @@ Returns the callback passed by.
 <T extends (...args: any[]) => any>(callback: T, deps?: DependencyList): T
 ```
 **usage**
+
 In this example we doesn't pass a dependency list. so onClick will be the same function reference during the life of the component.
 ```js
 const onClick = useCB(() => console.log(exampleRef.current))
@@ -271,6 +272,7 @@ Returns the effect callback that passed to the hook.
 <E extends (EffectCallback | (() => Promise<void>))>(effect: E, deps?: DependencyList): E
 ```
 **usage**
+
 This will work without any warning.
 ```js
 useEfct(async () => {/* Do some async operation */}, [...someDeps])
