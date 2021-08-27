@@ -37,7 +37,7 @@ A Set of Must use Hooks necessary for daily work with `React`
 ## **State**
 ### **`useSupperState`**
 ---
-Use a state with supper powers.
+Use a state with super powers.
 
 This hook is like a combination of `useState`, `useMemo` and `useRef` hooks at once.
 
