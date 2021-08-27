@@ -59,24 +59,24 @@ Or you can pass a factory function and a list of dependencies as you would do wi
 
 The state will be changed either by using `setState` or from outside when the list of dependencies changes.
 
-**Note**: you have a access to the previous state by getting it from the parameter passed to the factory function.
+**Note**: you have access to the previous state by the parameter passed to the factory function.
 ```js
 const [state, setState, stateRef] = useSupperState(
     /* State factory */ prevState => (prevState || 0) + props.count,
     /* Deps */ [props.count]
 )
 ```
-Also you can change the state without triggering a new rendering, by just changing the `stateRef` value.
+You can also change the state without triggering a new rendering, by changing the `stateRef` value..
 ```js
 stateRef.current = newValue
 ```
 ### **`useBindState`**
 ---
-Bind a state with an outside value.
+Bind a state to an outside value.
 
 When the outside value changes, the state will be updated with the new value.
 
-Returns a stateful value, and a function to update it + a ref to the state value.
+Returns a stateful value and function to update it + ref to the state value.
 
 **Definition**
 ```ts
@@ -84,7 +84,7 @@ Returns a stateful value, and a function to update it + a ref to the state value
 ```
 **usage**
 
-The `outsideValue` will create the initial state, and also update the state when he will be changed.
+The `outsideValue` will create the initial state, and will also update the state when it changes.
 ```js
 const [state, setState, stateRef] = useBindState(outsideValue)
 ```
@@ -95,9 +95,9 @@ Add the `useRef` power to the `useMemo` hook.
 
 This hook is like a combination of `useMemo` and `useRef` hooks at once.
 
-Returns the memo value and the ref object.
+Returns the memoized value and the ref object.
 
-**Note**: you have a access to the previous value by getting it from the parameter passed to the factory function.
+**Note**: You have access to the previous value using the parameter passed to the factory function.
 
 **Definition**
 ```ts
@@ -112,10 +112,10 @@ const [value, valueRef] = useMemoRef(
 ```
 ### **`useStableMemo`**
 ---
-It is a section in [React docs](https://reactjs.org/docs/hooks-reference.html#usememo) that say that you can't rely on the stability of the return value of the `useMemo` hook.
+There is a section in [React docs](https://reactjs.org/docs/hooks-reference.html#usememo) which says that the return value of `useMemo` cannot be trusted.
 > You may rely on useMemo as a performance optimization, **not as a semantic guarantee**. In the future, **React may choose to “forget” some previously memoized values** and recalculate them on next render, e.g. to free memory for offscreen components. Write your code so that it still works without useMemo — and then add it to optimize performance.
 
-So for stability purpose we choose to use our implementation that replaces the original `useMemo`.
+So for stability purposes we choose to use our implementation that replaces the original `useMemo`.
 
 **Note**: This hook is just a alias for [`useMemoRef`](#usememoref) hook.
 
@@ -130,9 +130,10 @@ See [`useMemoRef`](#usememoref) usage.
 ## **Callback**
 ### **`useCB`**
 ---
-This hook is just like `useCallback` hook, except that the dependencies array is not required.
 
-Returns the callback passed by.
+This hook is just like the `useCallback` hook, except that the dependency array is not required.
+
+Returns the passed callback.
 
 **Note**: If you do not pass a dependency list, to the second argument, the hook will be called only once.
 
@@ -141,8 +142,7 @@ Returns the callback passed by.
 <T extends (...args: any[]) => any>(callback: T, deps?: DependencyList): T
 ```
 **usage**
-
-In this example we doesn't pass a dependency list. so onClick will be the same function reference during the life of the component.
+In this example we do not pass a dependency list. So onClick will have the same reference to the function during the life of the component.
 ```js
 const onClick = useCB(() => console.log(exampleRef.current))
 ```
@@ -153,9 +153,9 @@ const onClick = useCB(() => console.log(exampleValue), [exampleValue])
 ## **Ref**
 ### **`useValueRef`**
 ---
-This hook get advantage of `useRef` hook and returns also the actual value of the reference.
+This hook utilizes the `useRef` hook and returns also the actual value of the reference.
 
-Returns the current value of the reference and the object reference itself.
+Returns the current value of the reference and the reference object itself.
 
 **Note**: You have an extra option that gives you the opportunity to pass a creator function for the initial value.
 
@@ -167,19 +167,19 @@ Returns the current value of the reference and the object reference itself.
 ```js
 const [value, valueRef] = useValueRef()
 ```
-Or you can pass to it an initial value
+Or you can pass an initial value to it.
 ```js
 const [value, valueRef] = useValueRef(initialValue)
 ```
-Or if you choose you can pass to it an creator for the initial value
+Or if you choose you can pass a creator to it for the initial value.
 ```js
 const [value, valueRef] = useValueRef(() => initialValue)
 ```
 ### **`useBindRef`**
 ---
-Bind a ref with an outside value.
+Bind a ref to an outside value.
 
-When the outside value changes, the ref value will be updated with the new value.
+When the outside value changes, the ref value will be updated to the new value.
 
 Returns the ref object.
 
@@ -189,15 +189,15 @@ Returns the ref object.
 ```
 **usage**
 
-The `outsideValue` will be the initial ref value, and also update the ref value when he get changed.
+The `outsideValue` value will be the initial ref value and will also update the ref value when it changes.
 ```js
 const myRef = useBindRef(outsideValue)
 ```
 ### **`useInnerRef`**
 ---
-Convert a ForwardedRef to a new regular `React` ref object.
+Convert `forwardedRef` to a new regular `React` ref object.
 
-Useful when using `forwardedRef` and you also want to use the ref as a regular ref inside the component.
+Useful when using `forwardedRef` and you want to use the ref as a regular ref within the component as well.
 
 Returns the ref object.
 
@@ -221,7 +221,7 @@ const ExampleComp = forwardedRef((props, ref)=> {
 ---
 Use the initial value returned by the create function, which is invoked when the component initialized.
 
-This hook is actually like a replacement to the constructor behavior in class components.
+This hook is basically a substitute for the behavior of the constructor in the class components.
 
 Returns the initial value.
 
@@ -235,9 +235,9 @@ const id = useInitial(() => Math.random())
 ```
 ### **`useRun`**
 ---
-This hook will be run a callback **immediately** if a dependency list changes.
+This hook will run **immediately** if the dependency list changes.
 
-The main difference between this hook to `React` lifecycles hooks is: this hook call immediately but the `useEffect` hook for example run after react finished processing the component.
+The main difference between this hook and the `React` lifecycles hooks is: this hook is called immediately but the `useEffect` hook for example run after processing the component.
 
 Returns isFirstRun indicator.
 
@@ -253,17 +253,17 @@ const ExampleComp = props => {
     return myRef.current > 10 && <div>Hello World!</div>
 }
 ```
-Also you have a extra data returns from this hook that can be useful in some cases.
+You also have additional data returns that can be useful in some cases.
 ```js
 const { isFirstRun, isFirstRunRef } = useRun(() => console.log(`Dependencies change`), [...someDeps])
 ```
 ### **`useEfct`**
 ---
-This hook take advantage of `React` `useEffect` hook and turn it to be better.
+This hook took advantage of `React` `useEffect` hook and improved it.
 
-**Note:** Tf the dependency list will not provided the hook will run only once.
+**Note**: If the dependency list is not provided the hook will only run once.
 
-**Note:** You can return a promise from the effect callback without getting any warning.
+**Note**: You can return a promise from the effect callback without receiving any warning.
 
 Returns the effect callback that passed to the hook.
 
@@ -273,15 +273,15 @@ Returns the effect callback that passed to the hook.
 ```
 **usage**
 
-This will work without any warning.
+It will work without any warning.
 ```js
 useEfct(async () => {/* Do some async operation */}, [...someDeps])
 ```
-This will be run only once, and NOT like `React` `useEffect` hook that in this case will on every component render.
+It will only run once, and not like the `React` `useEffect` hook which in this case will run on any render of the component.
 ```js
 useEfct(() => {/* Do something */})
 ```
-Also you can get the effect callback reference like so.
+You can also get the effect callback reference back this way.
 ```js
 const log = useEfct(() => console.log('effect called')) // output 'effect called' after the first render.
 log() // output 'effect called'
@@ -289,7 +289,7 @@ log() // output again 'effect called'
 ```
 ### **`useLayoutEfct`**
 ---
-This hook is just like [`useEfct`](#useefct) hook except that it take advantage of `React` `useLayoutEffect` hook.
+This hook is exactly like the [`useEfct`](#useefct) but it took advantage of `React` `useLayoutEffect` hook.
 
 **Definition**
 
@@ -320,7 +320,7 @@ const conditionPass = useIf(someValue === otherValue, () => console.log(`It is e
 ```
 ### **`useLayoutIf`**
 ---
-This hook is just like [`useIf`](#useif) hook except that it take advantage of `React` `useLayoutEffect` hook.
+This hook is just like [`useIf`](#useif) hook except that it took advantage of `React` `useLayoutEffect` hook.
 
 **Definition**
 
@@ -483,7 +483,7 @@ cancelAnimationFrame(handleRef.current)
 ```
 ### **`useLayoutTimeout`**
 ---
-This hook is just like [`useTimeout`](#usetimeout) hook except that it take advantage of `React` `useLayoutEffect` hook.
+This hook is just like [`useTimeout`](#usetimeout) hook except that it took advantage of `React` `useLayoutEffect` hook.
 
 **Definition**
 
@@ -518,7 +518,7 @@ cancelAnimationFrame(handleRef.current)
 ```
 ### **`useLayoutInterval`**
 ---
-This hook is just like [`useInterval`](#useinterval) hook except that it take advantage of `React` `useLayoutEffect` hook.
+This hook is just like [`useInterval`](#useinterval) hook except that it took advantage of `React` `useLayoutEffect` hook.
 
 **Definition**
 
