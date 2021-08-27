@@ -189,7 +189,7 @@ Returns the ref object.
 ```
 **usage**
 
-The `outsideValue` will be the initial ref value, and also update the ref value when he will be changed.
+The `outsideValue` will be the initial ref value, and also update the ref value when he get changed.
 ```js
 const myRef = useBindRef(outsideValue)
 ```
