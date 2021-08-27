@@ -1,4 +1,4 @@
-export * from './supper-state'
+export * from './super-state'
 export * from './bind-state'
 export * from './memo-ref'
 export * from './value-ref'

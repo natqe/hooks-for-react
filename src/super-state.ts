@@ -4,7 +4,7 @@ import { useRender } from "./render"
 import { useRun } from "./run"
 import { useInitial } from "./initial"
 
-type useSupperState = {
+type useSuperState = {
     <S = undefined>(): readonly [S | undefined, Dispatch<SetStateAction<S | undefined>>, MutableRefObject<S | undefined>]
     <S>(initialState: () => S): readonly [S, Dispatch<SetStateAction<S>>, MutableRefObject<S>]
     <S>(initialState: S): readonly [S, Dispatch<SetStateAction<S>>, MutableRefObject<S>]
@@ -13,7 +13,7 @@ type useSupperState = {
     <S>(factory: S | ((prev: S) => S), deps?: DependencyList): readonly [S, Dispatch<SetStateAction<S>>, MutableRefObject<S>]
 }
 
-export const useSupperState: useSupperState = <S>(factory: S | ((prev: S) => S) = () => void 0, deps: DependencyList = []) => {
+export const useSuperState: useSuperState = <S>(factory: S | ((prev: S) => S) = () => void 0, deps: DependencyList = []) => {
     const render = useRender()
     const ref = useRef<S>()
     const setState = useInitial(() => (value?: SetStateAction<S>) => {

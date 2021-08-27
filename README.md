@@ -2,7 +2,7 @@
 A Set of Must use Hooks necessary for daily work with `React`
 ## **Table of contents**
 - [State](#state)
-    - [useSupperState](#usesupperstate)
+    - [useSuperState](#usesuperstate)
     - [useBindState](#usebindstate)
 - [Memo](#memo)
     - [useMemoRef](#usememoref)
@@ -35,7 +35,7 @@ A Set of Must use Hooks necessary for daily work with `React`
 - [Logger](#logger)
     - [useLog](#uselog)
 ## **State**
-### **`useSupperState`**
+### **`useSuperState`**
 ---
 Use a state with super powers.
 
@@ -52,8 +52,8 @@ Returns a stateful value, and a function to update it + a ref to the state value
 You can use it as you normally do with the `useState` hook.
 
 ```js
-const [state, setState, stateRef] = useSupperState(/* Initial state */ 0)
-const [state, setState, stateRef] = useSupperState(/* Initial state creator */ () => 0)
+const [state, setState, stateRef] = useSuperState(/* Initial state */ 0)
+const [state, setState, stateRef] = useSuperState(/* Initial state creator */ () => 0)
 ```
 Or you can pass a factory function and a list of dependencies as you would do with the `useMemo` hook.
 
@@ -61,7 +61,7 @@ The state will be changed either by using `setState` or from outside when the li
 
 **Note**: you have access to the previous state by the parameter passed to the factory function.
 ```js
-const [state, setState, stateRef] = useSupperState(
+const [state, setState, stateRef] = useSuperState(
     /* State factory */ prevState => (prevState || 0) + props.count,
     /* Deps */ [props.count]
 )

@@ -21,7 +21,8 @@
         "userun",
         "usestablememo",
         "usestyle",
-        "usesupperstate",
+        "usesuperstate",
+        "usesuperstate",
         "usetimeout",
         "useunmount",
         "usevalueref"

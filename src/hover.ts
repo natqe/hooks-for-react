@@ -1,6 +1,6 @@
 import { MutableRefObject, useDebugValue, useRef, useState } from "react"
 import { useLayoutEfct } from "./layout-efct"
-import { useSupperState } from "./supper-state"
+import { useSuperState } from "./super-state"
 
 type useHoverArgs<T extends HTMLElement> = {
     ref?: MutableRefObject<T>
@@ -8,7 +8,7 @@ type useHoverArgs<T extends HTMLElement> = {
 }
 
 export const useHover = <T extends HTMLElement>({ ref = useRef<T>(null), enabled = true }: useHoverArgs<T> = { ref: useRef<T>(null), enabled: true }) => {
-    const [value, setValue] = useSupperState(false)
+    const [value, setValue] = useSuperState(false)
     useLayoutEfct(
         () => {
             const { current } = ref
