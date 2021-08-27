@@ -1,6 +1,28 @@
 {
     "cSpell.words": [
+        "usebindref",
         "usebindstate",
-        "usesupperstate"
+        "usecb",
+        "useclassname",
+        "useefct",
+        "usehover",
+        "useif",
+        "useinitial",
+        "useinnerref",
+        "useinterval",
+        "uselayoutefct",
+        "uselayoutif",
+        "uselayoutinterval",
+        "uselayouttimeout",
+        "uselog",
+        "usememoref",
+        "usemount",
+        "userender",
+        "userun",
+        "usestyle",
+        "usesupperstate",
+        "usetimeout",
+        "useunmount",
+        "usevalueref"
     ]
 }

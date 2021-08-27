@@ -4,8 +4,8 @@ import { useEfct } from "./efct"
 import { useInitial } from "./initial"
 import { useValueRef } from "./value-ref"
 
-export const useRun = <T>(callback: () => T, deps: DependencyList) => {
-    useInitial<T>(callback)
+export const useRun = (callback: () => void, deps: DependencyList) => {
+    useInitial(callback)
     const [prevDeps, prevDepsRef] = useValueRef(deps)
     const [isFirstRun, isFirstRunRef] = useValueRef(true)
     if (!isFirstRun && !depsEqual(deps, prevDeps)) callback()
