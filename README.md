@@ -273,6 +273,7 @@ Returns the effect callback that passed to the hook.
 <E extends (EffectCallback | (() => Promise<void>))>(effect: E, deps?: DependencyList): E
 ```
 **usage**
+
 You can use it like you normally do, and even return a cleanup callback, like the original
 ```js
 useEfct(
