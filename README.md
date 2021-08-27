@@ -219,7 +219,7 @@ const ExampleComp = forwardedRef((props, ref)=> {
 ## **Lifecycles**
 ### **`useInitial`**
 ---
-Use the initial value that returns by the create function, that invoked when the component is initialized.
+Use the initial value returned by the create function, which is invoked when the component initialized.
 
 This hook is actually like a replacement to the constructor behavior in class components.
 
