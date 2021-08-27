@@ -112,7 +112,7 @@ const [value, valueRef] = useMemoRef(
 ```
 ### **`useStableMemo`**
 ---
-There is a section in [React docs](https://reactjs.org/docs/hooks-reference.html#usememo) which says that the return value of `useMemo` cannot be trusted.
+There is a section in [React docs](https://reactjs.org/docs/hooks-reference.html#usememo) which says that the `useMemo` hook cannot be trusted for stability.
 > You may rely on useMemo as a performance optimization, **not as a semantic guarantee**. In the future, **React may choose to “forget” some previously memoized values** and recalculate them on next render, e.g. to free memory for offscreen components. Write your code so that it still works without useMemo — and then add it to optimize performance.
 
 So for stability purposes we choose to use our implementation that replaces the original `useMemo`.
