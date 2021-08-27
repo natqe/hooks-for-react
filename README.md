@@ -273,10 +273,19 @@ Returns the effect callback that passed to the hook.
 <E extends (EffectCallback | (() => Promise<void>))>(effect: E, deps?: DependencyList): E
 ```
 **usage**
-
-It will work without any warning.
+You can use it like you normally do, and even return a cleanup callback, like the original
 ```js
-useEfct(async () => {/* Do some async operation */}, [...someDeps])
+useEfct(
+    ()=> {
+        elem.addEventListener(`some event`, listener)
+        return () => elem.removeEventListener(`some event`, listener)
+    },
+    [elem]
+)
+```
+You can also return a promise if you don't need the cleanup.
+```js
+useEfct(async () => {/* Do some async operation */}, [myDep, otherDep])
 ```
 In this case the effect will only run once, and not like the `React` `useEffect` hook which in this case will run on any render of the component.
 ```js
@@ -286,7 +295,6 @@ You can also get the effect callback reference back this way.
 ```js
 const log = useEfct(() => console.log('effect called')) // output 'effect called' after the first render.
 log() // output 'effect called'
-log() // output again 'effect called'
 ```
 ### **`useLayoutEfct`**
 ---
