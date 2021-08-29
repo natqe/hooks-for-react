@@ -1,14 +1,7 @@
-import { useDebugValue, useLayoutEffect, useRef } from "react"
-import { useLayoutEfct } from "./layout-efct"
+import { useDebugValue } from "react"
+import { useEfct } from "./efct"
 
-export const useMount = () => {
-    const isMountedRef = useRef(false)
-    useLayoutEfct(() => {
-        isMountedRef.current = true
-        return () => {
-            isMountedRef.current = false
-        }
-    })
-    useDebugValue(isMountedRef.current)
-    return [isMountedRef.current, isMountedRef] as const
+export const useMount = (callback: Parameters<typeof useEfct>[0]) => {
+    useDebugValue(callback)
+    useEfct(callback, [])
 }

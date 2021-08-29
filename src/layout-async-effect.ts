@@ -1,8 +1,7 @@
 import { DependencyList, useDebugValue, useLayoutEffect, useRef } from "react"
 import { useInitial } from "./initial"
-import { useEfct } from "./efct"
 
-export const useLayoutEfct: typeof useEfct = <T extends ((onCleanup: (execute: () => void) => void) => void | (() => void) | Promise<void>)>(effect: T, deps: DependencyList): T => {
+export const useLayoutAsyncEffect = (effect: (onCleanup: (execute: () => void | Promise<void>) => void) => Promise<void>, deps?: DependencyList) => {
     const cleanUpExecuters = useInitial(() => Array<() => void>())
     const countRef = useRef(0)
     useLayoutEffect(
@@ -12,8 +11,7 @@ export const useLayoutEfct: typeof useEfct = <T extends ((onCleanup: (execute: (
                if(countRef.current === count) cleanUpExecuters.push(execute)
                else execute()
             }
-            const result = effect(handleCleanup)
-            if (result && !result[`then`]) handleCleanup(result as () => void)
+            effect(handleCleanup)
         },
         deps
     )
@@ -26,5 +24,4 @@ export const useLayoutEfct: typeof useEfct = <T extends ((onCleanup: (execute: (
         [countRef.current]
     )
     useDebugValue(effect)
-    return effect
 }

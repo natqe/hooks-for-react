@@ -4,8 +4,8 @@ import { useLayoutEfct } from "./layout-efct"
 export const useLayoutIf = (condition, callback: Parameters<typeof useLayoutEfct>[0]) => {
     useDebugValue(!!condition)
     useLayoutEfct(
-        () => {
-            if (condition) return callback()
+        onCleanup => {
+            if (condition) return callback(onCleanup)
         },
         [!!condition]
     )

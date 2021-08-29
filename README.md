@@ -8,7 +8,7 @@ A Set of Must use Hooks necessary for daily work with `React`
     - [useMemoRef](#usememoref)
     - [useStableMemo](#usestablememo)
 - [Callback](#callback)
-    - [useCB](#usecb)
+    - [useSameCallback](#usesamecallback)
 - [Ref](#ref)
     - [useValueRef](#usevalueref)
     - [useBindRef](#usebindref)
@@ -16,11 +16,10 @@ A Set of Must use Hooks necessary for daily work with `React`
 - [Lifecycles](#lifecycles)
     - [useInitial](#useinitial)
     - [useRun](#userun)
-    - [useEfct](#useefct)
-    - [useLayoutEfct](#uselayoutefct)
+    - [useAsyncEffect](#useasynceffect)
     - [useIf](#useif)
-    - [useLayoutIf](#uselayoutif)
     - [useMount](#usemount)
+    - [useIsMount](#useismount)
     - [useUnmount](#useunmount)
     - [useRender](#userender)
 - [Dom](#dom)
@@ -28,10 +27,8 @@ A Set of Must use Hooks necessary for daily work with `React`
     - [useStyle](#usestyle)
     - [useHover](#usehover)
 - [Timer](#timer)
-    - [useTimeout](#usetimeout)
-    - [useLayoutTimeout](#uselayouttimeout)
+    - [useTimeout](#usetimeout)`
     - [useInterval](#useinterval)
-    - [useLayoutInterval](#uselayoutinterval)
 - [Logger](#logger)
     - [useLog](#uselog)
 ## **State**
@@ -53,17 +50,19 @@ You can use it as you normally do with the `useState` hook.
 
 ```js
 const [state, setState, stateRef] = useSuperState(/* Initial state */ 0)
-const [state, setState, stateRef] = useSuperState(/* Initial state creator */ () => 0)
+const [state, setState, stateRef] = useSuperState(/* Initial state creator - run only once */ () => 0)
 ```
 Or you can pass a factory function and a list of dependencies as you would do with the `useMemo` hook.
 
 The state will be changed either by using `setState` or from outside when the list of dependencies changes.
 
-**Note**: you have access to the previous state by the parameter passed to the factory function.
+**Note**: You have access to the previous state by the parameter passed to the factory function.
 ```js
 const [state, setState, stateRef] = useSuperState(
-    /* State factory */ prevState => (prevState || 0) + props.count,
-    /* Deps */ [props.count]
+    // State factory - run if the dependency list changed
+    prevState => (prevState || 0) + props.count,
+    // Dependency list
+    [props.count]
 )
 ```
 You can also change the state without triggering a new rendering, by changing the `stateRef` value..
@@ -91,23 +90,25 @@ const [state, setState, stateRef] = useBindState(outsideValue)
 ## **Memo**
 ### **`useMemoRef`**
 ---
-Add the `useRef` power to the `useMemo` hook.
+Add `useRef` power to the `useMemo` hook.
 
 This hook is like a combination of `useMemo` and `useRef` hooks at once.
 
-Returns the memoized value and the ref object.
-
 **Note**: You have access to the previous value using the parameter passed to the factory function.
+
+Returns a memoized value and a ref object.
 
 **Definition**
 ```ts
-<V>(factory: (prev: V) => V, deps?: DependencyList): [V, MutableRefObject<T>]
+<V>(factory: (prev: V) => V, deps: DependencyList): [V, MutableRefObject<T>]
 ```
 **usage**
 ```js
 const [value, valueRef] = useMemoRef(
-    /* Factory */ prevValue => (prevValue || 0) + props.count,
-    /* Dependencies */ [props.count]
+    /* Factory */
+     prevValue => (prevValue || 0) + props.count,
+    /* Dependencies */
+    [props.count]
 )
 ```
 ### **`useStableMemo`**
@@ -128,37 +129,29 @@ See [`useMemoRef`](#usememoref) definition.
 See [`useMemoRef`](#usememoref) usage.
 
 ## **Callback**
-### **`useCB`**
+### **`useSameCallback`**
 ---
 
-This hook is just like the `useCallback` hook, except that the dependency array is not required.
+This hook is just like the `useCallback` hook with an empty array. This means that the callback will not change during the life of the component.
 
-Returns the passed callback.
-
-**Note**: If you do not pass a dependency list, to the second argument, the hook will be called only once.
+Returns a reference to the initial passed callback.
 
 **Definition**
 ```ts
-<T extends (...args: any[]) => any>(callback: T, deps?: DependencyList): T
+<T extends (...args: any[]) => any>(callback: T): T
 ```
 **usage**
-
-In this example we do not pass a dependency list. So onClick will have the same reference to the function during the life of the component.
 ```js
-const onClick = useCB(() => console.log(exampleRef.current))
-```
-And here is an example with a dependency list in the second parameter.
-```js
-const onClick = useCB(() => console.log(exampleValue), [exampleValue])
+const onClick = useSameCallback(() => console.log(exampleRef.current))
 ```
 ## **Ref**
 ### **`useValueRef`**
 ---
-This hook utilizes the `useRef` hook and returns also the actual value of the reference.
-
-Returns the current value of the reference and the reference object itself.
+This hook utilizes `React` `useRef` hook and returns also the actual value of the reference.
 
 **Note**: You have an extra option that gives you the opportunity to pass a creator function for the initial value.
+
+Returns the current value of the reference and the reference object itself.
 
 **Definition**
 ```ts
@@ -240,7 +233,7 @@ This hook will run **immediately** if the dependency list changes.
 
 The main difference between this hook and the `React` lifecycles hooks is: this hook is called immediately but the `useEffect` hook for example run after processing the component.
 
-Returns isFirstRun indicator.
+Returns an isFirstRun indicator.
 
 **Definition**
 ```ts
@@ -258,61 +251,55 @@ You also have additional data returns that can be useful in some cases.
 ```js
 const { isFirstRun, isFirstRunRef } = useRun(() => console.log(`Dependencies change`), [...someDeps])
 ```
-### **`useEfct`**
+### **`useAsyncEffect`**
 ---
-This hook took advantage of `React` `useEffect` hook and improved it.
+This hook is a modified version of `React` `useEffect` hook that adds a nice support for async callback effect.
 
-**Note**: If the dependency list is not provided the hook will only run once.
+You can achieve the same cleanup behavior as the native `useEffect` by accessing the effect argument and passing to it a callback. **Note:** You should call it above any async operation (AKA before the `await` keyword)
 
-**Note**: You can return a promise from the effect callback without receiving any warning.
+**Note**: If you don't pass an dependency list, the effect will rerun after every completed render.
 
-Returns the effect callback that passed to the hook.
+**Note:** Use `useLayoutAsyncEffect` for the layout effect version.
 
 **Definition**
 ```ts
-<E extends (EffectCallback | (() => Promise<void>))>(effect: E, deps?: DependencyList): E
+(effect: (onCleanup: (execute: () => void | Promise<void>) => void) => Promise<void>, deps?: DependencyList): void
 ```
 **usage**
-
-You can use it like you normally do, and even return a cleanup callback, like the original
 ```js
-useEfct(
-    ()=> {
-        elem.addEventListener(`some event`, listener)
-        return () => elem.removeEventListener(`some event`, listener)
+useAsyncEffect(
+    async () => {
+        const user = await myApi.get('./user')
+        setData(user)
     },
-    [elem]
+    []
 )
 ```
-You can also return a promise if you don't need the cleanup.
+With cleanup:
 ```js
-useEfct(async () => {/* Do some async operation */}, [myDep, otherDep])
+useAsyncEffect(
+    async (onCleanup)=> {
+        const ac = new AbortController()
+        // Call onCleanup above any async operation
+        onCleanup(
+            // cleanup callback
+            () => ac.abort()
+        )
+        const res = await fetch('./my-api', { signal: ac.signal })
+        const data = await res.json()
+        setData(data)
+        // onCleanup(() => ac.abort()) -> This is NOT OK!
+    },
+    [someDep]
+)
 ```
-In this case the effect will only run once, and not like the `React` `useEffect` hook which in this case will run on any render of the component.
-```js
-useEfct(() => {/* Do something */})
-```
-You can also get the effect callback reference back this way.
-```js
-const log = useEfct(() => console.log('effect called')) // output 'effect called' after the first render.
-log() // output 'effect called'
-```
-### **`useLayoutEfct`**
----
-This hook is exactly like the [`useEfct`](#useefct) but it took advantage of `React` `useLayoutEffect` hook.
-
-**Definition**
-
-See [`useEfct`](#useefct) definition.
-
-**usage**
-
-See [`useEfct`](#useefct) usage.
 ### **`useIf`**
 ---
 Run a effect callback when the first parameter is truthy.
 
-**Note**: This hook uses the `React` `useEffect` behind the scenes.
+**Note**: The Effect Callback can have a `React` `useEffect` Callback signature, or a [`useAsyncEffect`](useasynceffect) Callback signature.
+
+**Note:** Use `useLayoutIf` for the layout effect version.
 
 Returns the truthiness of the condition passed in the first parameter.
 
@@ -321,29 +308,62 @@ Returns the truthiness of the condition passed in the first parameter.
 (condition: unknown, callback: EffectCallback): boolean
 ```
 **usage**
+
+Except a `React` `useEffect` callback.
 ```js
-useIf(someValue === otherValue, () => console.log(`It is equal`))
+useIf(someValue === otherValue, () => {
+    console.log(`It is equal`)
+    // Cleanup
+    return () => console.log(`Cleaned up`)
+})
 ```
-And also you can hold the truthiness of the condition like so.
+[`useAsyncEffect`](#useasynceffect) callback also will work.
+```js
+useIf(someValue === otherValue, async onCleanup => {
+    onCleanup(() => console.log(`Cleaned up`)) // Always put it above any async operation.
+    const data = await api.send(`It is equal`)
+    console.log(data)
+})
+```
+And it will return the truthiness of the condition.
 ```js
 const conditionPass = useIf(someValue === otherValue, () => console.log(`It is equal`))
 ```
-### **`useLayoutIf`**
+### **useMount**
 ---
-This hook is just like [`useIf`](#useif) hook except that it took advantage of `React` `useLayoutEffect` hook.
+Run a callback when the component is mounted.
+
+**Note**: The Effect Callback can have a `React` `useEffect` Callback signature, or a [`useAsyncEffect`](useasynceffect) Callback signature.
+
+**Note**: Use `useLayoutMount` for the layout effect version.
 
 **Definition**
-
-See [`useIf`](#useif) definition.
-
+```ts
+(callback: EffectCallback): void
+```
 **usage**
 
-See [`useIf`](#useif) usage.
-### **`useMount`**
+Except a `React` `useEffect` callback.
+```js
+useMount(() => {
+    console.log(`It is equal`)
+    // Cleanup
+    return () => console.log(`Cleaned up`)
+})
+```
+Callback signature for [`useAsyncEffect`](#useasynceffect) should also will work.
+```js
+useMount(async onCleanup => {
+    onCleanup(() => console.log(`Cleaned up`)) // Always put it above any async operation.
+    const data = await api.send(`It is equal`)
+    console.log(data)
+})
+```
+### **`useIsMount`**
 ---
-Get to know when the component is mounted.
+Get to know the component current mounted state.
 
-Returns a boolean and object ref to the boolean.
+Returns a boolean and a ref to the boolean.
 
 **Definition**
 ```ts
@@ -351,17 +371,17 @@ Returns a boolean and object ref to the boolean.
 ```
 **usage**
 ```js
-const [isMount, isMountRef] = useMount()
+const [isMount, isMountRef] = useIsMount()
 ```
 ### **`useUnmount`**
 ---
-Run a callback when the component is getting unmounted.
+Run a callback when the component is unmounted.
 
-Returns the callback function that get passed.
+Returns the callback that get passed.
 
 **Definition**
 ```ts
-<C extends Destructor>(callback: C, deps?: DependencyList): C
+<C extends (()=> void | Promise<void>>)>(callback: C): C
 ```
 **usage**
 ```js
@@ -388,23 +408,23 @@ useEffect(() => render(), [...someDeps]) // the component will render when the d
 ---
 Join lists of dom element className to be one className string, and memoized it depending on dependency list.
 
-**Note**: If you do not pass a dependency list, the factory function will be called only once.
-
-Returns string represents a combination of className list.
+Returns a string represents the combination of all className in the array list.
 
 **Definition**
 ```ts
-(factory: () => Array<string>, deps?: DependencyList): string
+(factory: () => Array<string>, deps: DependencyList): string
 ```
 **usage**
 ```jsx
 const myClassName = useClassName(
-    /* Factory that returns array of classNames */ () => [
+    // Define a factory that returns array of classNames
+    () => [
         `flex black`,
         someCondition && `some-class other-class`,
         secondCondition ? `new-class-list`: ``
     ],
-    /* List of dependencies */[someCondition, secondCondition]
+    // List of dependencies go here
+    [someCondition, secondCondition]
 )
 <div className={myClassName}>Hello world</div>
 ```
@@ -412,22 +432,22 @@ const myClassName = useClassName(
 ---
 Create style and memoized it depending on dependency list.
 
-**Note**: If you do not pass a dependency list, the factory function will be called only once.
-
 Returns the created style object, ready for use as a property of html element.
 
 **Definition**
 ```ts
-(factory: () => CSSProperties, deps?: DependencyList): CSSProperties
+(factory: () => CSSProperties, deps: DependencyList): CSSProperties
 ```
 **usage**
 ```jsx
 const myStyle = useStyle(
-    /* Factory that returns style object */ () => ({
+    // Define a Factory that returns style object
+    () => ({
         backgroundColor: someCondition && `black`,
         color: someCondition ? `white`: `black`
     }),
-    /* List of dependencies */[someCondition]
+    // List of dependencies go here
+    [someCondition]
 )
 <div style={myStyle}>Hello world</div>
 ```
@@ -437,7 +457,7 @@ Get a sense when a element dom get hovered.
 
 **Note**: You can disabled the hook functionality by passing `false` to the enabled option.
 
-**Note**: If you do not pass an ref to the element by using the ref option, an ref will be created for you.
+**Note**: If you don't pass ref to the element by using the ref option, an ref will be created for you.
 
 Returns a boolean represents the truthiness of the element hover state, and a ref to the element.
 
@@ -469,9 +489,11 @@ const [isHover, btnRef] = useHover({ enabled: !isMobile })
 ---
 Use a callback on amount of time after the dependency list changes.
 
+**Note**: If you don't pass an dependency list, the effect will stop and rerun after every completed render.
+
 **Note**: This hook used `requestAnimationFrame` behind the scenes, for performance reason.
 
-**Note**: If you do not pass a dependency list, the callback function will be called only once.
+**Note:** Use `useLayoutTimeout` for the layout effect version.
 
 Returns a ref to the current result of `requestAnimationFrame` call.
 
@@ -482,31 +504,27 @@ Returns a ref to the current result of `requestAnimationFrame` call.
 **usage**
 ```js
 const handleRef = useTimeout(
-    /* callback */ () => console.log(`DependencyList changes`),
-    /* milliseconds */ 1000,
-    /* DependencyList */[...someDeps]
+    /* callback */
+    () => console.log(`DependencyList changes`),
+    /* milliseconds */
+    1000,
+    /* Dependency List */
+    [...someDeps]
 )
 ```
 And you can cancel the `requestAnimationFrame` like so.
 ```js
 cancelAnimationFrame(handleRef.current)
 ```
-### **`useLayoutTimeout`**
----
-This hook is just like [`useTimeout`](#usetimeout) hook except that it took advantage of `React` `useLayoutEffect` hook.
-
-**Definition**
-
-See [`useTimeout`](#usetimeout) definition.
-
-**usage**
-
-See [`useTimeout`](#usetimeout) usage.
 ### **`useInterval`**
 ---
 Restart a interval on amount of time after the dependency list changes.
 
+**Note**: If you don't pass an dependency list, the effect will rerun after every completed render.
+
 **Note**: This hook used `requestAnimationFrame` behind the scenes, for performance reason.
+
+**Note**: Use `useLayoutInterval` for the layout effect version.
 
 Returns a ref to the current result of `requestAnimationFrame` call.
 
@@ -517,26 +535,18 @@ Returns a ref to the current result of `requestAnimationFrame` call.
 **usage**
 ```js
 const handleRef = useInterval(
-    /* callback */ () => console.log(`DependencyList changes`),
-    /* milliseconds */ 1000,
-    /* DependencyList */[...someDeps]
+    /* callback */
+    () => console.log(`DependencyList changes`),
+    /* milliseconds */
+    1000,
+    /* DependencyList */
+    [...someDeps]
 )
 ```
 And you can cancel the `requestAnimationFrame` like so.
 ```js
 cancelAnimationFrame(handleRef.current)
 ```
-### **`useLayoutInterval`**
----
-This hook is just like [`useInterval`](#useinterval) hook except that it took advantage of `React` `useLayoutEffect` hook.
-
-**Definition**
-
-See [`useInterval`](#useinterval) definition.
-
-**usage**
-
-See [`useInterval`](#useinterval) usage.
 ## **Logger**
 ### **`useLog`**
 ---

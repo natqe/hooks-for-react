@@ -1,7 +1,6 @@
-import { DependencyList, useDebugValue, useRef, useState } from "react"
-import { useLayoutEfct } from "./layout-efct"
+import { DependencyList, useDebugValue, useLayoutEffect, useRef, useState } from "react"
 
-export const useLayoutTimeout = (callback: () => void, ms = 0, deps: DependencyList = []) => {
+export const useLayoutTimeout = (callback: () => void | Promise<void>, ms = 0, deps?: DependencyList) => {
     const handle = useRef<ReturnType<typeof requestAnimationFrame>>()
     const [initialTimestamp] = useState(() => Date.now())
     const prevLoadTimestamp = useRef<Parameters<FrameRequestCallback>[0]>(initialTimestamp)
@@ -14,7 +13,7 @@ export const useLayoutTimeout = (callback: () => void, ms = 0, deps: DependencyL
             cancelAnimationFrame(handle.current)
         }
     }
-    useLayoutEfct(
+    useLayoutEffect(
         () => {
             handle.current = requestAnimationFrame(frameCallback)
             return () => cancelAnimationFrame(handle.current)

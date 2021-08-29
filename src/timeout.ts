@@ -1,7 +1,6 @@
-import { DependencyList, useDebugValue, useRef, useState } from "react"
-import { useEfct } from "./efct"
+import { DependencyList, useDebugValue, useEffect, useRef, useState } from "react"
 
-export const useTimeout = (callback: () => void, ms = 0, deps: DependencyList = []) => {
+export const useTimeout = (callback: () => void | Promise<void>, ms = 0, deps?: DependencyList) => {
     const handle = useRef<ReturnType<typeof requestAnimationFrame>>()
     const [initialTimestamp] = useState(() => Date.now())
     const prevLoadTimestamp = useRef<Parameters<FrameRequestCallback>[0]>(initialTimestamp)
@@ -14,7 +13,7 @@ export const useTimeout = (callback: () => void, ms = 0, deps: DependencyList = 
             cancelAnimationFrame(handle.current)
         }
     }
-    useEfct(
+    useEffect(
         () => {
             handle.current = requestAnimationFrame(frameCallback)
             return () => cancelAnimationFrame(handle.current)

@@ -1,12 +1,7 @@
-import { DependencyList, EffectCallback, useDebugValue } from "react"
-import { useEfct } from "./efct"
+import { useDebugValue, useEffect } from "react"
 
-declare const UNDEFINED_VOID_ONLY: unique symbol;
-// Destructors are only allowed to return void.
-type Destructor = () => void | { [UNDEFINED_VOID_ONLY]: never };
-
-export const useUnmount = <T extends Destructor>(callback: T, deps: DependencyList = []) => {
+export const useUnmount = <C extends (() => void | Promise<void>)>(callback: C) => {
     useDebugValue(callback)
-    useEfct(() => callback as ReturnType<EffectCallback>, deps)
+    useEffect(() => () => void callback(), [])
     return callback
 }
