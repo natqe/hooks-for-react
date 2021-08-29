@@ -3,14 +3,14 @@ import { DependencyList, Dispatch, MutableRefObject, SetStateAction, useDebugVal
 import { useRender } from "./render"
 import { useRun } from "./run"
 import { useInitial } from "./initial"
+import { NonFunction } from './common/non-function.type'
 
 type useSuperState = {
     <S = undefined>(): readonly [S | undefined, Dispatch<SetStateAction<S | undefined>>, MutableRefObject<S | undefined>]
     <S>(initialState: () => S): readonly [S, Dispatch<SetStateAction<S>>, MutableRefObject<S>]
-    <S>(initialState: S): readonly [S, Dispatch<SetStateAction<S>>, MutableRefObject<S>]
+    <S>(initialState: NonFunction<S>): readonly [S, Dispatch<SetStateAction<S>>, MutableRefObject<S>]
     <S>(factory: () => S, deps: DependencyList): readonly [S, Dispatch<SetStateAction<S>>, MutableRefObject<S>]
     <S>(factory: (prev: S) => S, deps: DependencyList): readonly [S, Dispatch<SetStateAction<S>>, MutableRefObject<S>]
-    <S>(factory: S | ((prev: S) => S), deps?: DependencyList): readonly [S, Dispatch<SetStateAction<S>>, MutableRefObject<S>]
 }
 
 export const useSuperState: useSuperState = <S>(factory: S | ((prev: S) => S) = () => void 0, deps: DependencyList = []) => {

@@ -1,0 +1,1 @@
+export type NonFunction<T> = T extends (...args) => any ? never : T

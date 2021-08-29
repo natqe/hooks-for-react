@@ -4,13 +4,10 @@ A Set of Must use Hooks necessary for daily work with `React`
 - [State](#state)
     - [useSuperState](#usesuperstate)
     - [useBindState](#usebindstate)
-- [Memo](#memo)
-    - [useMemoRef](#usememoref)
-    - [useStableMemo](#usestablememo)
 - [Callback](#callback)
     - [useSameCallback](#usesamecallback)
 - [Ref](#ref)
-    - [useValueRef](#usevalueref)
+    - [useSuperRef](#usesuperref)
     - [useBindRef](#usebindref)
     - [useInnerRef](#useinnerref)
 - [Lifecycles](#lifecycles)
@@ -87,47 +84,6 @@ The `outsideValue` will create the initial state, and will also update the state
 ```js
 const [state, setState, stateRef] = useBindState(outsideValue)
 ```
-## **Memo**
-### **`useMemoRef`**
----
-Add `useRef` power to the `useMemo` hook.
-
-This hook is like a combination of `useMemo` and `useRef` hooks at once.
-
-**Note**: You have access to the previous value using the parameter passed to the factory function.
-
-Returns a memoized value and a ref object.
-
-**Definition**
-```ts
-<V>(factory: (prev: V) => V, deps: DependencyList): [V, MutableRefObject<T>]
-```
-**usage**
-```js
-const [value, valueRef] = useMemoRef(
-    /* Factory */
-     prevValue => (prevValue || 0) + props.count,
-    /* Dependencies */
-    [props.count]
-)
-```
-### **`useStableMemo`**
----
-There is a section in [React docs](https://reactjs.org/docs/hooks-reference.html#usememo) which says that the `useMemo` hook cannot be trusted for stability.
-> You may rely on useMemo as a performance optimization, **not as a semantic guarantee**. In the future, **React may choose to “forget” some previously memoized values** and recalculate them on next render, e.g. to free memory for offscreen components. Write your code so that it still works without useMemo — and then add it to optimize performance.
-
-So for stability purposes we choose to use our implementation that replaces the original `useMemo`.
-
-**Note**: This hook is just a alias for [`useMemoRef`](#usememoref) hook.
-
-**Definition**
-
-See [`useMemoRef`](#usememoref) definition.
-
-**usage**
-
-See [`useMemoRef`](#usememoref) usage.
-
 ## **Callback**
 ### **`useSameCallback`**
 ---
@@ -145,29 +101,41 @@ Returns a reference to the initial passed callback.
 const onClick = useSameCallback(() => console.log(exampleRef.current))
 ```
 ## **Ref**
-### **`useValueRef`**
+### **`useSuperRef`**
 ---
-This hook utilizes `React` `useRef` hook and returns also the actual value of the reference.
+Use a ref with super powers.
 
-**Note**: You have an extra option that gives you the opportunity to pass a creator function for the initial value.
+This hook is like a combination of `useMemo` and `useRef` hooks at once.
 
-Returns the current value of the reference and the reference object itself.
+Returns a value, and a ref to the value.
 
 **Definition**
 ```ts
-<V>(value?: V | (() => V)): [V, MutableRefObject<V>]
+<V>(factory: V | ((prev: V) => V), deps?: DependencyList): [V, MutableRefObject<V>]
 ```
-**usage**
+**Usage**
+
+You can use it as you normally do with the `useRef` hook.
 ```js
-const [value, valueRef] = useValueRef()
+const [value, valueRef] = useSuperRef()
+const [value, valueRef] = useSuperRef(/* Initial value */ 0)
 ```
-Or you can pass an initial value to it.
+Or you can pass an initializer function.
 ```js
-const [value, valueRef] = useValueRef(initialValue)
+const [value, valueRef] = useSuperRef(/* Initial value creator - only runs once */ () => 0)
 ```
-Or if you choose you can pass a creator to it for the initial value.
+Or you can pass a factory function and a list of dependencies as you would do with the `useMemo` hook.
+
+The value will be changed either by using `useRef.current` or from outside when the list of dependencies changes.
+
+**Note**: You have access to the previous value by the parameter passed to the factory function.
 ```js
-const [value, valueRef] = useValueRef(() => initialValue)
+const [value, valueRef] = useSuperRef(
+    // ref value factory - run if the dependency list changed
+    prevValue => (prevValue || 0) + props.count,
+    // Dependency list
+    [props.count]
+)
 ```
 ### **`useBindRef`**
 ---

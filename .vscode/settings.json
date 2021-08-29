@@ -25,6 +25,7 @@
         "usesamecallback",
         "usestablememo",
         "usestyle",
+        "usesuperref",
         "usesuperstate",
         "usetimeout",
         "useunmount",
