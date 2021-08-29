@@ -24,7 +24,7 @@ A Set of Must use Hooks necessary for daily work with `React`
     - [useStyle](#usestyle)
     - [useHover](#usehover)
 - [Timer](#timer)
-    - [useTimeout](#usetimeout)`
+    - [useTimeout](#usetimeout)
     - [useInterval](#useinterval)
 - [Logger](#logger)
     - [useLog](#uselog)
