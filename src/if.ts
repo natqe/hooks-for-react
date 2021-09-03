@@ -1,13 +1,8 @@
 import { useDebugValue } from "react"
 import { useEfct } from "./efct"
+import { useIfAbstract } from "./if.abstract"
 
 export const useIf = (condition: unknown, callback: Parameters<typeof useEfct>[0]) => {
     useDebugValue(!!condition)
-    useEfct(
-        onCleanup => {
-            if (condition) return callback(onCleanup)
-        },
-        [!!condition]
-    )
-    return !!condition
+    return useIfAbstract(useEfct, condition, callback)
 }

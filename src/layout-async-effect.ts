@@ -1,27 +1,7 @@
-import { DependencyList, useDebugValue, useLayoutEffect, useRef } from "react"
-import { useInitial } from "./initial"
+import { DependencyList, useDebugValue, useLayoutEffect } from "react"
+import { useLayoutEfct } from "./layout-efct"
 
 export const useLayoutAsyncEffect = (effect: (onCleanup: (execute: () => void | Promise<void>) => void) => Promise<void>, deps?: DependencyList) => {
-    const cleanUpExecuters = useInitial(() => Array<() => void>())
-    const countRef = useRef(0)
-    useLayoutEffect(
-        () => {
-            const count = ++countRef.current
-            const handleCleanup = (execute: () => void) => {
-               if(countRef.current === count) cleanUpExecuters.push(execute)
-               else execute()
-            }
-            effect(handleCleanup)
-        },
-        deps
-    )
-    useLayoutEffect(
-        () => {
-            return () => {
-                while (cleanUpExecuters.length) cleanUpExecuters.pop()()
-            }
-        },
-        [countRef.current]
-    )
+    useLayoutEfct(effect, deps)
     useDebugValue(effect)
 }

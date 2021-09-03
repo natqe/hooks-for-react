@@ -1,9 +1,8 @@
-import { useDebugValue, useRef } from "react"
-import { useRun } from "./run"
+import { useDebugValue } from "react"
+import { useSuperRef } from "."
 
 export const useBindRef = <T>(value: T) => {
-    const ref = useRef<T>()
-    useRun(() => ref.current = value, [value])
-    useDebugValue(ref.current)
+    const [, ref] = useSuperRef<T>(() => value, [value])
+    useDebugValue(value)
     return ref
 }

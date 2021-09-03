@@ -13,7 +13,7 @@ type useSuperState = {
     <S>(factory: (prev: S) => S, deps: DependencyList): readonly [S, Dispatch<SetStateAction<S>>, MutableRefObject<S>]
 }
 
-export const useSuperState: useSuperState = <S>(factory: S | ((prev: S) => S) = () => void 0, deps: DependencyList = []) => {
+export const useSuperState: useSuperState = <S>(factory?: S | ((prev: S) => S), deps: DependencyList = []) => {
     const render = useRender()
     const ref = useRef<S>()
     const setState = useInitial(() => (value?: SetStateAction<S>) => {

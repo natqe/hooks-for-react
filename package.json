@@ -12,6 +12,7 @@
     "url": "https://github.com/natqe/hooks-for-react.git"
   },
   "devDependencies": {
+    "@testing-library/react": "^12.0.0",
     "@types/jest": "27.0.1",
     "@types/node": "16.7.6",
     "@types/react": "17.0.19",

@@ -1,4 +1,4 @@
-import { DependencyList, MutableRefObject, useDebugValue, useRef } from 'react'
+import { DependencyList, MutableRefObject, useDebugValue, useRef, useMemo } from 'react'
 import { isFunction } from './common/is-function'
 import { NonFunction } from './common/non-function.type'
 import { useRun } from "./run"
@@ -11,7 +11,7 @@ type useSuperRef = {
     <V>(factory: (prev: V) => V, deps: DependencyList): readonly [V, MutableRefObject<V>]
 }
 
-export const useSuperRef: useSuperRef = <V>(factory: V | ((prev: V) => V) = () => void 0, deps: DependencyList = []) => {
+export const useSuperRef: useSuperRef = <V>(factory?: V | ((prev: V) => V), deps: DependencyList = []) => {
     const ref = useRef<V>()
     useRun(() => ref.current = isFunction(factory) ? factory(ref.current) : factory, deps)
     useDebugValue(ref.current)
