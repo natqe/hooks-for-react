@@ -4,7 +4,7 @@
     "module": "ESNext",
     "sourceMap": true,
     "outDir": "./build",
-    "sourceRoot": "../../node_modules/hooks-for-react/src",
+    "sourceRoot": "./src",
     "declaration": true,
     "removeComments": false,
     "esModuleInterop": false,
@@ -16,6 +16,6 @@
   ],
   "exclude": [
     "src/**/*.test.ts",
-    "src/coverage"
+    "src/coverage
   ]
 }
