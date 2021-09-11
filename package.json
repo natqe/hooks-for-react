@@ -2,8 +2,8 @@
   "name": "hooks-for-react",
   "description": "A set of must use hooks necessary for daily work with react",
   "version": "0.3.6",
-  "main": "index.js",
-  "types": "index.d.ts",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
   "private": false,
   "keywords": [],
   "author": "Natan Farkash",
@@ -31,9 +31,7 @@
   },
   "files": [
     "build",
-    "src"
-  ],
-  "exports": {
-    "./": "./build/"
-  }
+    "src",
+    "common.js"
+  ]
 }
