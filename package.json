@@ -31,7 +31,6 @@
   },
   "files": [
     "build",
-    "src",
-    "common.js"
+    "src"
   ]
 }

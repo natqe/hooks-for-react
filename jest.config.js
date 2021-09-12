@@ -2,9 +2,9 @@
 module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'jsdom',
-  rootDir: `src`,
   moduleNameMapper: {
     "^lodash-es$": "lodash"
   },
   collectCoverage: true,
-};
+  roots: [`src`]
+}
