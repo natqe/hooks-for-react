@@ -1,12 +1,12 @@
 import { render } from '@testing-library/react'
 import { createElement, MutableRefObject, useRef } from 'react'
-import { useInterval } from './interval'
+import { useLayoutInterval } from '../src/layout-interval'
 
 test(`Implement interval`, async () => {
     let ref: MutableRefObject<number>
     const Component = () => {
         ref = useRef(0)
-        useInterval(() => void ++ref.current, 70, [])
+        useLayoutInterval(() => void ++ref.current, 70, [])
         return null
     }
     render(createElement(Component))
@@ -18,7 +18,7 @@ test(`Default values`, async () => {
     let ref: MutableRefObject<number>
     const Component = () => {
         ref = useRef(0)
-        useInterval(() => void ++ref.current)
+        useLayoutInterval(() => void ++ref.current)
         return null
     }
     const component = render(createElement(Component))

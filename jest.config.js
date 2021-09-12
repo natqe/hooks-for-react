@@ -6,5 +6,5 @@ module.exports = {
     "^lodash-es$": "lodash"
   },
   collectCoverage: true,
-  roots: [`src`]
+  roots: [`test`]
 }

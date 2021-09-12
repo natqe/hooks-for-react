@@ -1,4 +1,4 @@
-import { depsEqual } from './deps-equal'
+import { depsEqual } from '../../src/common/deps-equal'
 
 test(`Implement timeout`, () => {
     expect(depsEqual([1], [1])).toBe(true)

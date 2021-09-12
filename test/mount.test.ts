@@ -1,12 +1,12 @@
 import { render } from '@testing-library/react'
 import { createElement, MutableRefObject, useRef } from 'react'
-import { useLayoutMount } from './layout-mount'
+import { useMount } from '../src/mount'
 
 test(`Run a callback when the component is mounted`, async () => {
     let ref: MutableRefObject<number>
     const Component = () => {
         ref = useRef(0)
-        useLayoutMount(() => void ++ref.current)
+        useMount(() => void ++ref.current)
         return null
     }
     render(createElement(Component)).unmount()

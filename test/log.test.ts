@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react'
 import { createElement } from 'react'
-import { useLog } from './log'
+import { useLog } from '../src/log'
 
 beforeAll(() => console.log = jest.fn())
 afterAll(() => jest.resetAllMocks())

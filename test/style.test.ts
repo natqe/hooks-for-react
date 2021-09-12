@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react'
 import { createElement, CSSProperties, useRef } from 'react'
-import { useStyle } from './style'
+import { useStyle } from '../src/style'
 
 test(`Return same object`, async () => {
     let isSameStyle: boolean

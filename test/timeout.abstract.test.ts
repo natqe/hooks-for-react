@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react'
 import { createElement, MutableRefObject, useEffect, useRef } from 'react'
-import { useAbstractTimeout } from './timeout.abstract'
+import { useAbstractTimeout } from '../src/timeout.abstract'
 
 test(`Implement timeout`, async () => {
     let ref: MutableRefObject<number>

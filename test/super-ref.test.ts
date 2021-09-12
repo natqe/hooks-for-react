@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react'
 import { createElement } from 'react'
-import { useSuperRef } from './super-ref'
+import { useSuperRef } from '../src/super-ref'
 
 test(`The value stay the same if not explicitly changed`, async () => {
     let count: number

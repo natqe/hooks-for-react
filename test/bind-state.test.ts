@@ -1,6 +1,6 @@
 import { createElement, FC, MutableRefObject } from 'react'
 import { create } from 'react-test-renderer'
-import { useBindState } from './bind-state'
+import { useBindState } from '../src/bind-state'
 
 test(`It bind`, () => {
     let refHolder: MutableRefObject<string>

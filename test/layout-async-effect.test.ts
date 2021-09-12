@@ -1,4 +1,4 @@
-import { useLayoutAsyncEffect } from './layout-async-effect'
+import { useLayoutAsyncEffect } from '../src/layout-async-effect'
 import { create } from 'react-test-renderer'
 import { createElement, FC } from 'react'
 

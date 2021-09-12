@@ -1,4 +1,4 @@
-import { useAsyncEffect } from './async-effect'
+import { useAsyncEffect } from '../src/async-effect'
 import { create } from 'react-test-renderer'
 import { createElement, FC } from 'react'
 

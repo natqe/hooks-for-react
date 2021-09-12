@@ -13,15 +13,15 @@
     "url": "https://github.com/natqe/hooks-for-react.git"
   },
   "devDependencies": {
-    "@testing-library/react": "^12.0.0",
+    "@testing-library/react": "12.1.0",
     "@types/jest": "27.0.1",
-    "@types/node": "16.7.6",
-    "@types/react": "17.0.19",
+    "@types/node": "16.9.1",
+    "@types/react": "17.0.20",
     "@types/react-test-renderer": "17.0.1",
-    "jest": "27.1.0",
+    "jest": "27.1.1",
     "react-test-renderer": "17.0.2",
     "ts-jest": "27.0.5",
-    "typescript": "4.4.2"
+    "typescript": "4.4.3"
   },
   "scripts": {
     "build": "rm -rf build && tsc && npm version patch"

@@ -1,6 +1,6 @@
 import { createElement, FC } from 'react'
 import { create } from 'react-test-renderer'
-import { useClassName } from './class-name'
+import { useClassName } from '../src/class-name'
 
 test(`Join lists of className to be one className string`, () => {
     let classNameReferrer: string

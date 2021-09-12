@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react'
 import { createElement, MutableRefObject, useEffect, useRef } from 'react'
-import { useAbstractInterval } from './interval.abstract'
+import { useAbstractInterval } from '../src/interval.abstract'
 
 test(`Implement timeout`, async () => {
     let ref: MutableRefObject<number>

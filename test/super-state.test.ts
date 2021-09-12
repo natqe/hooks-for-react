@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react'
 import { createElement, useEffect } from 'react'
-import { useSuperState } from './super-state'
+import { useSuperState } from '../src/super-state'
 
 test(`The value stay the same if not explicitly changed`, async () => {
     let count: number

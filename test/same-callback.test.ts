@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react'
 import { createElement } from 'react'
-import { useSameCallback } from './same-callback'
+import { useSameCallback } from '../src/same-callback'
 
 test(`Is same callback`, async () => {
     let isSameCallback: boolean

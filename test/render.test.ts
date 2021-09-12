@@ -1,8 +1,8 @@
 import { render } from '@testing-library/react'
 import { createElement } from 'react'
-import { useMount } from './mount'
-import { useRender } from './render'
-import { useUnmount } from './unmount'
+import { useMount } from '../src/mount'
+import { useRender } from '../src/render'
+import { useUnmount } from '../src/unmount'
 
 test(`Force the component to be render`, async () => {
     let renderCount = 0

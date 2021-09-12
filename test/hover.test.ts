@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import { createElement, FC, useRef } from 'react'
-import { useHover } from './hover'
+import { useHover } from '../src/hover'
 
 test(`Get a sense when a element dom get hovered`, () => {
     let hovered: boolean

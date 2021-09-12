@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react'
 import { createElement, forwardRef, MutableRefObject, useRef } from 'react'
-import { useInnerRef } from './inner-ref'
+import { useInnerRef } from '../src/inner-ref'
 
 test(`Convert forwardedRef to a new regular React ref object`, () => {
     let ref: MutableRefObject<HTMLElement>
