@@ -6,7 +6,7 @@ test(`Run when condition is truthy`, async () => {
     let conditionMatch: boolean
     const Component = ({ prop }) => {
         useIf(prop, () => {
-            return () => conditionMatch = true
+            return () => { conditionMatch = true }
         })
         return null
     }

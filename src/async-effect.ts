@@ -1,7 +1,8 @@
-import { DependencyList, useDebugValue, useEffect } from "react"
+import { DependencyList, useDebugValue } from "react"
 import { useEfct } from "./efct"
+import { promiseEffect } from "./efct.abstract"
 
-export const useAsyncEffect = (effect: (onCleanup: (execute: () => void | Promise<void>) => void) => Promise<void>, deps?: DependencyList) => {
-    useEfct(effect, deps)
+export const useAsyncEffect = (effect: promiseEffect, deps?: DependencyList) => {
     useDebugValue(effect)
+    return useEfct(effect, deps)
 }

@@ -35,6 +35,8 @@ Use a state with super powers.
 
 This hook is like a combination of `useState`, `useMemo` and `useRef` hooks at once.
 
+**Performance savings**: This hook gives you the ability to apply logic on the go, and saves you unnecessary component rendering by eliminating the need to use `React` `useEffect` to update the state in certain scenarios.
+
 Returns a stateful value, and a function to update it + a ref to the state value.
 
 **Definition**
@@ -54,6 +56,7 @@ Or you can pass a factory function and a list of dependencies as you would do wi
 The state will be changed either by using `setState` or from outside when the list of dependencies changes.
 
 **Note**: You have access to the previous state by the parameter passed to the factory function.
+
 ```js
 const [state, setState, stateRef] = useSuperState(
     // State factory - run if the dependency list changed
@@ -61,10 +64,6 @@ const [state, setState, stateRef] = useSuperState(
     // Dependency list
     [props.count]
 )
-```
-You can also change the state without triggering a new rendering, by changing the `stateRef` value..
-```js
-stateRef.current = newValue
 ```
 ### **`useBindState`**
 ---
@@ -223,11 +222,11 @@ const { isFirstRun, isFirstRunRef } = useRun(() => console.log(`Dependencies cha
 ---
 This hook is a modified version of `React` `useEffect` hook that adds a nice support for async callback effect.
 
-You can achieve the same cleanup behavior as the native `useEffect` by accessing the effect argument and passing to it a callback. **Note:** You should call it above any async operation (AKA before the `await` keyword)
+You can achieve the same cleanup behavior as the native `useEffect` by accessing the effect argument and passing to it a callback. **Note:** You should call it above any async operation.
 
-**Note**: If you don't pass an dependency list, the effect will rerun after every completed render.
+**Note**: Use `useLayoutAsyncEffect` for the layout effect version.
 
-**Note:** Use `useLayoutAsyncEffect` for the layout effect version.
+Returns indicator for the previous effect execution. This can help you to achieve ordered effects execution.
 
 **Definition**
 ```ts
@@ -261,6 +260,30 @@ useAsyncEffect(
     [someDep]
 )
 ```
+Ordered async effects example:
+
+**Note**: By default it has a bounce behavior, meaning it will skip the resolve of 'prevEffect' if the next effect arrives before the previous effect is completed.
+```js
+const prevEffect = useAsyncEffect(
+    async () => {
+        await prevEffect() // Wait until previous effect is completed.
+        const users = await myApi.get(`./users?q=${searchValue}`)
+        setData(users)
+    },
+    [searchValue]
+)
+```
+Ordered async effects with the bounce behavior disabled.
+```js
+const prevEffect = useAsyncEffect(
+    async () => {
+        await prevEffect({ bounce: false })
+        const users = await myApi.get(`./users?q=${searchValue}`)
+        setData(users)
+    },
+    [searchValue]
+)
+```
 ### **`useIf`**
 ---
 Run a effect callback when the first parameter is truthy.
@@ -268,8 +291,6 @@ Run a effect callback when the first parameter is truthy.
 **Note**: The Effect Callback can have a `React` `useEffect` Callback signature, or a [`useAsyncEffect`](useasynceffect) Callback signature.
 
 **Note:** Use `useLayoutIf` for the layout effect version.
-
-Returns the truthiness of the condition passed in the first parameter.
 
 **Definition**
 ```ts
@@ -292,10 +313,6 @@ useIf(someValue === otherValue, async onCleanup => {
     const data = await api.send(`It is equal`)
     console.log(data)
 })
-```
-And it will return the truthiness of the condition.
-```js
-const conditionPass = useIf(someValue === otherValue, () => console.log(`It is equal`))
 ```
 ### **useMount**
 ---
