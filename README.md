@@ -262,7 +262,7 @@ useAsyncEffect(
 ```
 ### **`useOrderedAsync`**
 ---
-This hook is like `useAsyncEffect`(useasynceffect) but it waits for the previous effect to end before the next effect starts.
+This hook is like [`useAsyncEffect`](useasynceffect) but it waits for the previous effect to end before the next effect starts.
 
 **Note**: Use `useLayoutOrderedAsync` for the layout effect version.
 
@@ -278,7 +278,7 @@ useOrderedAsync(
 ```
 ### **`useBounceAsync`**
 ---
-This hook is like `useOrderedAsync`(useasynceffect) but it will skip the effect if a new effect arrives.
+This hook is like [`useOrderedAsync`](useasynceffect) but it will skip the effect if a new effect arrives.
 
 **Note**: Use `useLayoutBounceAsync` for the layout effect version.
 
