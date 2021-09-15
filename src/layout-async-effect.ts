@@ -3,5 +3,5 @@ import { useLayoutEfct } from "./layout-efct"
 
 export const useLayoutAsyncEffect = (effect: (onCleanup: (execute: () => void | Promise<void>) => void) => Promise<void>, deps?: DependencyList) => {
     useDebugValue(effect)
-    return useLayoutEfct(effect, deps)
+    useLayoutEfct(effect, deps)
 }

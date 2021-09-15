@@ -14,6 +14,8 @@ A Set of Must use Hooks necessary for daily work with `React`
     - [useInitial](#useinitial)
     - [useRun](#userun)
     - [useAsyncEffect](#useasynceffect)
+    - [useOrderedAsync](#useorderedasync)
+    - [useBounceAsync](#usebounceasync)
     - [useIf](#useif)
     - [useMount](#usemount)
     - [useIsMount](#useismount)
@@ -226,8 +228,6 @@ You can achieve the same cleanup behavior as the native `useEffect` by accessing
 
 **Note**: Use `useLayoutAsyncEffect` for the layout effect version.
 
-Returns indicator for the previous effect execution. This can help you to achieve ordered effects execution.
-
 **Definition**
 ```ts
 (effect: (onCleanup: (execute: () => void | Promise<void>) => void) => Promise<void>, deps?: DependencyList): void
@@ -260,24 +260,32 @@ useAsyncEffect(
     [someDep]
 )
 ```
-Ordered async effects example:
+### **`useOrderedAsync`**
+---
+This hook is like `useAsyncEffect`(useasynceffect) but it waits for the previous effect to end before the next effect starts.
 
-**Note**: By default it has a bounce behavior, meaning it will skip the resolve of 'prevEffect' if the next effect arrives before the previous effect is completed.
+**Note**: Use `useLayoutOrderedAsync` for the layout effect version.
+
+**usage**
 ```js
-const prevEffect = useAsyncEffect(
+useOrderedAsync(
     async () => {
-        await prevEffect() // Wait until previous effect is completed.
         const users = await myApi.get(`./users?q=${searchValue}`)
         setData(users)
     },
     [searchValue]
 )
 ```
-Ordered async effects with the bounce behavior disabled.
+### **`useBounceAsync`**
+---
+This hook is like `useOrderedAsync`(useasynceffect) but it will skip the effect if a new effect arrives.
+
+**Note**: Use `useLayoutBounceAsync` for the layout effect version.
+
+**usage**
 ```js
-const prevEffect = useAsyncEffect(
+useBounceAsync(
     async () => {
-        await prevEffect({ bounce: false })
         const users = await myApi.get(`./users?q=${searchValue}`)
         setData(users)
     },

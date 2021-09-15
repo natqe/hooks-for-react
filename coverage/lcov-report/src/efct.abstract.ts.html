@@ -25,21 +25,21 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>28/28</span>
+                <span class='fraction'>27/27</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>20/20</span>
+                <span class='fraction'>18/18</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>7/7</span>
+                <span class='fraction'>6/6</span>
             </div>
         
             
@@ -104,9 +104,7 @@
 <a name='L45'></a><a href='#L45'>45</a>
 <a name='L46'></a><a href='#L46'>46</a>
 <a name='L47'></a><a href='#L47'>47</a>
-<a name='L48'></a><a href='#L48'>48</a>
-<a name='L49'></a><a href='#L49'>49</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
+<a name='L48'></a><a href='#L48'>48</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -126,36 +124,34 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">27x</span>
-<span class="cline-any cline-yes">27x</span>
-<span class="cline-any cline-yes">27x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">26x</span>
-<span class="cline-any cline-yes">26x</span>
-<span class="cline-any cline-yes">26x</span>
-<span class="cline-any cline-yes">26x</span>
-<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-yes">26x</span>
 <span class="cline-any cline-yes">26x</span>
 <span class="cline-any cline-yes">26x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">25x</span>
+<span class="cline-any cline-yes">25x</span>
+<span class="cline-any cline-yes">25x</span>
+<span class="cline-any cline-yes">25x</span>
+<span class="cline-any cline-yes">25x</span>
+<span class="cline-any cline-yes">25x</span>
+<span class="cline-any cline-yes">25x</span>
+<span class="cline-any cline-yes">25x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">27x</span>
-<span class="cline-any cline-yes">15x</span>
-<span class="cline-any cline-yes">15x</span>
-<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
 <span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { DependencyList, useDebugValue, useEffect, useLayoutEffect, useRef } from "react"
-import { useInitial } from "."
-import { useSuperRef } from "./super-ref"
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { DependencyList, useEffect, useLayoutEffect, useRef } from "react"
 &nbsp;
 declare const UNDEFINED_VOID_ONLY: unique symbol
 &nbsp;
@@ -173,7 +169,7 @@ export type regularEffectWithCleanup = (onCleanup: onCleanup) =&gt; () =&gt; voi
 &nbsp;
 export type efct = promiseEffect | regularEffectWithCleanup | regularEffect
 &nbsp;
-type useEfctAbstract = &lt;T extends efct&gt;(hook: typeof useEffect | typeof useLayoutEffect, effect: T, deps?: DependencyList) =&gt; T extends promiseEffect ? ({ bounce }?: { bounce?: boolean }) =&gt; Promise&lt;void&gt; : void
+type useEfctAbstract = &lt;T extends efct&gt;(hook: typeof useEffect | typeof useLayoutEffect, effect: T, deps?: DependencyList) =&gt; T extends promiseEffect ? ({ bounce }: { bounce: boolean }) =&gt; Promise&lt;void&gt; : void
 &nbsp;
 export const useEfctAbstract: useEfctAbstract = (hook: typeof useEffect | typeof useLayoutEffect, effect: efct, deps?: DependencyList) =&gt; {
     const prevEffectRef = useRef&lt;Promise&lt;void&gt;&gt;()
@@ -185,14 +181,14 @@ export const useEfctAbstract: useEfctAbstract = (hook: typeof useEffect | typeof
             const result = effect(handleCleanup)
             if (result &amp;&amp; !result[`then`]) handleCleanup(result as () =&gt; void)
             return () =&gt; {
-                if (result &amp;&amp; result[`then`]) prevEffectRef.current = prevEffectRef.current === resolved.current ? result as Promise&lt;void&gt;: Promise.resolve()
+                if (result &amp;&amp; result[`then`]) prevEffectRef.current = prevEffectRef.current === resolved.current ? result as Promise&lt;void&gt; : Promise.resolve()
                 for (const cleanUp of cleanUpExecuters) cleanUp()
                 cleanUpExecuters = null
             }
         },
         deps
     )
-    return useInitial(() =&gt; async ({ bounce = true } = { bounce: true }) =&gt; {
+    const orderControl: any = async ({ bounce }: { bounce: boolean }) =&gt; {
         resolved.current = null
         const prevEffect = prevEffectRef.current
         if (prevEffect) {
@@ -200,7 +196,8 @@ export const useEfctAbstract: useEfctAbstract = (hook: typeof useEffect | typeof
             resolved.current = prevEffect
             if (bounce &amp;&amp; prevEffectRef.current !== prevEffect) await new Promise(() =&gt; { })
         }
-    }) as any
+    }
+    return orderControl
 }</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -208,7 +205,7 @@ export const useEfctAbstract: useEfctAbstract = (hook: typeof useEffect | typeof
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Wed Sep 15 2021 13:43:36 GMT+0300 (שעון ישראל (קיץ))
+                at Wed Sep 15 2021 17:03:03 GMT+0300 (שעון ישראל (קיץ))
             </div>
         </div>
         <script src="../prettify.js"></script>

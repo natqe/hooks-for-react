@@ -1,6 +1,4 @@
-import { DependencyList, useDebugValue, useEffect, useLayoutEffect, useRef } from "react"
-import { useInitial } from "."
-import { useSuperRef } from "./super-ref"
+import { DependencyList, useEffect, useLayoutEffect, useRef } from "react"
 
 declare const UNDEFINED_VOID_ONLY: unique symbol
 
@@ -18,7 +16,7 @@ export type regularEffectWithCleanup = (onCleanup: onCleanup) => () => voidOnly
 
 export type efct = promiseEffect | regularEffectWithCleanup | regularEffect
 
-type useEfctAbstract = <T extends efct>(hook: typeof useEffect | typeof useLayoutEffect, effect: T, deps?: DependencyList) => T extends promiseEffect ? ({ bounce }?: { bounce?: boolean }) => Promise<void> : void
+type useEfctAbstract = <T extends efct>(hook: typeof useEffect | typeof useLayoutEffect, effect: T, deps?: DependencyList) => T extends promiseEffect ? ({ bounce }: { bounce: boolean }) => Promise<void> : void
 
 export const useEfctAbstract: useEfctAbstract = (hook: typeof useEffect | typeof useLayoutEffect, effect: efct, deps?: DependencyList) => {
     const prevEffectRef = useRef<Promise<void>>()
@@ -30,14 +28,14 @@ export const useEfctAbstract: useEfctAbstract = (hook: typeof useEffect | typeof
             const result = effect(handleCleanup)
             if (result && !result[`then`]) handleCleanup(result as () => void)
             return () => {
-                if (result && result[`then`]) prevEffectRef.current = prevEffectRef.current === resolved.current ? result as Promise<void>: Promise.resolve()
+                if (result && result[`then`]) prevEffectRef.current = prevEffectRef.current === resolved.current ? result as Promise<void> : Promise.resolve()
                 for (const cleanUp of cleanUpExecuters) cleanUp()
                 cleanUpExecuters = null
             }
         },
         deps
     )
-    return useInitial(() => async ({ bounce = true } = { bounce: true }) => {
+    const orderControl: any = async ({ bounce }: { bounce: boolean }) => {
         resolved.current = null
         const prevEffect = prevEffectRef.current
         if (prevEffect) {
@@ -45,5 +43,6 @@ export const useEfctAbstract: useEfctAbstract = (hook: typeof useEffect | typeof
             resolved.current = prevEffect
             if (bounce && prevEffectRef.current !== prevEffect) await new Promise(() => { })
         }
-    }) as any
+    }
+    return orderControl
 }

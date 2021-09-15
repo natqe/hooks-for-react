@@ -4,5 +4,5 @@ import { promiseEffect } from "./efct.abstract"
 
 export const useAsyncEffect = (effect: promiseEffect, deps?: DependencyList) => {
     useDebugValue(effect)
-    return useEfct(effect, deps)
+    useEfct(effect, deps)
 }
