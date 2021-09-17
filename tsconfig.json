@@ -3,7 +3,7 @@
     "target": "ES2021",
     "module": "ESNext",
     "sourceMap": true,
-    "outDir": "build",
+    "outDir": "dist",
     "declaration": true,
     "removeComments": false,
     "esModuleInterop": false,

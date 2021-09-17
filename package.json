@@ -2,8 +2,8 @@
   "name": "hooks-for-react",
   "description": "A set of must use hooks necessary for daily work with react",
   "version": "3.0.3",
-  "main": "build/index.js",
-  "types": "build/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "private": false,
   "keywords": [],
   "author": "Natan Farkash",
@@ -24,13 +24,13 @@
     "typescript": "4.4.3"
   },
   "scripts": {
-    "build": "rm -rf build && tsc && npm version patch"
+    "build": "rm -rf dist && tsc && npm version patch"
   },
   "peerDependencies": {
     "react": "~17.0.2"
   },
   "files": [
-    "build",
+    "dist",
     "src"
   ]
 }
