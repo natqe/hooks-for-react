@@ -1,7 +1,7 @@
 {
   "name": "hooks-for-react",
   "description": "A set of must use hooks necessary for daily work with react",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "private": false,
